@@ -1,19 +1,19 @@
 ﻿using System;
 using System.Media;
-class ProgramMain 
+class ProgramMain
 {
     static void Main(string[] args)
     {
 
         // Text change
-        Console.Title = "CyberSecurity";
+        Console.Title = "CyberSecurity ChatBot";
         Console.ForegroundColor = ConsoleColor.Green;
+        Console.BackgroundColor = ConsoleColor.Black;
 
 
         SoundPlayer welcomeSound = new SoundPlayer("Welcome sound.wav");
-        welcomeSound.PlaySync();
         welcomeSound.Load();
-        welcomeSound.Play();
+        welcomeSound.PlaySync();
 
         string asciiArt = @"
 
@@ -47,69 +47,14 @@ class ProgramMain
         Console.WriteLine("===================================================");
 
         UserName user = new UserName();
-        user.GetUsername();
+        string name = user.GetUsername();
 
         ResponseQuestions bot = new ResponseQuestions();
-        bot.Questions();
-
-
-        
-
+        bot.Questions(name);
     }
 }
 
-class UserName
-{
-    public void GetUsername()
-    {
-        Console.WriteLine("What is your name?");
-        Console.WriteLine();
-        String name = Console.ReadLine();
-        Console.WriteLine("Welcome, " + name + ": ");
-    }
-}
 
-class ResponseQuestions
-{
-    public void Questions()
-    {
-        while (true)
-        {
-            Console.WriteLine("Ask me anything! ");
-            Console.WriteLine();
-            string input = Console.ReadLine().ToLower();
-            ValidateInput(input);
-        }
-    }
 
-    public void ValidateInput(string input)
-    {
-        if (string.IsNullOrWhiteSpace(input))
-        {
-            Console.WriteLine("You didn't type anything! Please ask a question.");
-            Console.WriteLine();
-        }
-        else if (input == "how are you")
-        {
-            Console.WriteLine("Im good thanks, How about you?");
-            Console.WriteLine();
-        }
-        else if (input == "what's your purpose?")
-        {
-            Console.WriteLine("I'm here to help you stay safe online!");
-            Console.WriteLine();
-        }
-        else if (input == "what can i ask you about? ")
-        {
-            Console.WriteLine("You can ask me anything related to cybersecurity");
-            Console.WriteLine();
-        }
-        else
-        {
-            Console.WriteLine("I didn't understand that, try again.");
-            Console.WriteLine();
-        }
-    }
 
-    
-}
+
