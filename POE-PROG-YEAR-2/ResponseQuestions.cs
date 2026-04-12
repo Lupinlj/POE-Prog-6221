@@ -13,12 +13,16 @@ class ResponseQuestions
     }
     public void Questions(string name)
     {
-
+        Console.ForegroundColor = ConsoleColor.Blue;
+        Console.WriteLine("===================================================");
+        Console.WriteLine();
         Console.ForegroundColor = ConsoleColor.Blue;
         TypeText("\n=== CyberBot ===");
-        Thread.Sleep(3000);
-        TypeText("Ask me anything! (Type exit to quit)");
+        Console.WriteLine("===================================================");
         Console.WriteLine();
+        TypeText("Hello " + name + ", ask me anything! (Type exit to quit)");
+        Console.WriteLine();
+        
 
         while (true)
         {
@@ -28,7 +32,7 @@ class ResponseQuestions
             if (input == "exit")
             {
                 TypeText("Goodbye!");
-                TypeText("===================================================");
+                Console.WriteLine("===================================================");
                 break;
             }
 
@@ -83,6 +87,9 @@ class ResponseQuestions
         {
             Console.ForegroundColor = ConsoleColor.Blue;
             TypeText("Phishing you say " + name + ": Dont click on any random link and dont trust people online!");
+            TypeText("Phising is a cyberattact where hackers will use fake websites or messages to trick there victems into giving them sensitive information.");
+            TypeText("A user might reseive a link thinking its from a friend, but as soon as the user clicks on the lin" +
+                " the all sensitive information will be expose");
             Thread.Sleep(3000);
             Console.WriteLine();
 
