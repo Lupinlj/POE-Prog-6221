@@ -19,7 +19,7 @@ jobs:
         dotnet-version: 8.0.x
 
     - name: Restore dependencies
-      run: dotnet restore POE-PROG-YEAR-2.csproj
+      run: dotnet restore POE-PROG-YEAR-2/POE-PROG-YEAR-2.csproj
 
     - name: Build
-      run: dotnet build POE-PROG-YEAR-2.csproj --no-restore
+      run: dotnet build POE-PROG-YEAR-2/POE-PROG-YEAR-2.csproj --no-restore
