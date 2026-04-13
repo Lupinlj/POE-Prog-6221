@@ -14,4 +14,4 @@ This is a console-based chatbot that teaches users on cybersecurity topics such 
 - Windows
 
 ## CI Workflow
-![CI Status] (ci-screenshot.png)
+![CI Status](ci-screenshot.png.png)
