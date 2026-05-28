@@ -39,6 +39,7 @@
             chatDisplay.ForeColor = Color.Lime;
             chatDisplay.Location = new Point(10, 10);
             chatDisplay.Name = "chatDisplay";
+            chatDisplay.ReadOnly = true;
             chatDisplay.Size = new Size(750, 350);
             chatDisplay.TabIndex = 0;
             chatDisplay.Text = "";
@@ -62,6 +63,7 @@
             btnSend.TabIndex = 2;
             btnSend.Text = "Send";
             btnSend.UseVisualStyleBackColor = false;
+            btnSend.Click += btnSend_Click;
             // 
             // Form1
             // 
@@ -74,6 +76,7 @@
             Controls.Add(chatDisplay);
             Name = "Form1";
             Text = "CyberSecurity ChatBot";
+            Load += Form1_Load;
             ResumeLayout(false);
             PerformLayout();
         }

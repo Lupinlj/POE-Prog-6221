@@ -126,4 +126,45 @@ class ResponseQuestions
         }
 
     }
+
+    public string GetResponse(string input, string name)
+    {
+        if (string.IsNullOrWhiteSpace(input))
+            return "You didn't type anything! Please ask a question.";
+
+        else if (input.Contains("how are you"))
+            return "I'm good thanks, How about you?";
+
+        else if (input.Contains("what's your purpose"))
+            return "I'm here to help you stay safe online!";
+
+        else if (input.Contains("what can i ask you about"))
+            return "You can ask me anything related to cybersecurity";
+
+        else if (input.Contains("password"))
+            return "Great question, " + name + ": Here are some password tips..." +
+                "\n1. 1. When you create an account somewhere, use a strong and separate password for your email" +
+                "\n2. 2. Create unusual passwords like combining three random words for example (BroWhatDog)" +
+                "\n3. 3. Never create a password that is just numbers or letters like 1234/abcd. If you do make sure they are random like alstfnalks, but be careful since you might forget it.";
+
+        else if (input.Contains("phishing"))
+            return "Phishing you say" + name + ": Don't click on any random link and don't trust people online!" +
+                "\n Phishing is a cyberattack where hackers will use fake websites or messages to trick their victims into giving them sensitive information." +
+                "\nA A user might receive a link thinking it's from a friend, but as soon as the user clicks on the link all sensitive information will be exposed.";
+
+        else if (input.Contains("safe browsing"))
+            return "Here are some safe browsing tips," + name + ": " +
+                "\n1 1. Keep your browser and devices up to date. If your system is outdated, it has a higher chance of being attacked." +
+                "\n2 2. Make sure you use strong, unique passwords for every account you create" +
+                "\n3 3. Be cautious with links and any attachments on the internet. Phishing is one of the modern ways the hackers attack you";
+
+        else if (input.Contains("2fa") || input.Contains("two factor"))
+            return "Good question \" + name + \": The following will tell you what you need to know about Two-Factor Authentication..." +
+                "1. Two-Factor Authentication (2FA) requires two steps to log in. This is usually your password, as well as confirming a code that is sent to your email or phone number." +
+                "2. Passwords alone won't keep your accounts secure. Hackers can steal your credentials through fake login pages or leaks from other sites. 2FA adds a second layer of protection, making it much harder for attackers to gain access" +
+                "3. 2FA makes it harder for attackers to access your account, even if they have your password. They will still need something that only you have access to. This could be a one-time code sent to your phone or email, a fingerprint scan, or facial recognition.";
+
+        else
+            return "I didn't understand that, try again.";
+    }
 }

@@ -1,10 +1,15 @@
 ﻿using System;
 using System.Media;
+using System.Windows.Forms;
 
-class ProgramMain
+namespace POE_PROG_YEAR_2
+{
+    class ProgramMain
 {
     static void Main(string[] args)
     {
+
+        Application.Run(new Form1());
 
         // Text change
         Console.Title = "CyberSecurity ChatBot";
@@ -56,6 +61,8 @@ class ProgramMain
 }
 
 
+ 
+}
 
 
 
