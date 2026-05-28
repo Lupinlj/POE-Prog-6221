@@ -13,6 +13,7 @@ namespace POE_PROG_YEAR_2
     {
 
         private string userName = "";
+        private string saveTopic = "";
 
         public Form1()
         {
@@ -23,6 +24,9 @@ namespace POE_PROG_YEAR_2
 
         private void Form1_Load(object sender, EventArgs e)
         {
+
+
+            chatDisplay.Font = new Font("Courier New", 9);
             // Play welcome sound
             SoundPlayer welcomeSound = new SoundPlayer("Welcome sound.wav");
             welcomeSound.Load();
@@ -74,16 +78,36 @@ namespace POE_PROG_YEAR_2
         {
             string input = userInput.Text.ToLower();
 
-            if (string.IsNullOrWhiteSpace(input)) 
+            if (string.IsNullOrWhiteSpace(input))
                 return;
 
+            chatDisplay.SelectionColor = Color.Cyan;
             chatDisplay.AppendText("You: " + userInput.Text + "\n");
 
             ResponseQuestions bot = new ResponseQuestions();
             string response = bot.GetResponse(input, userName);
 
+            chatDisplay.SelectionColor = Color.Lime;
             chatDisplay.AppendText("CyberBot: " + response + "\n");
 
+
+
+           
+            // Save the topic for follow-up questions
+            if (input.Contains("phishing")) saveTopic = "phishing";
+            else if (input.Contains("password")) saveTopic = "password";
+            else if (input.Contains("safe browsing")) saveTopic = "safe browsing";
+            else if (input.Contains("2fa") || input.Contains("two factor")) saveTopic = "2fa";
+            else if (input.Contains("scam")) saveTopic = "scam";
+            else if (input.Contains("privacy")) saveTopic = "privacy";
+
+            // Check if user is asking for more info on the last topic
+            if ((input.Contains("tell me more") || input.Contains("explain more") || input.Contains("give me another tip")) && saveTopic != "")
+            {
+                string repsonse = bot.GetResponse(saveTopic, userName);
+                chatDisplay.AppendText("CyberBot: " + response + "\n\n");
+                return;
+            }
             userInput.Clear();
             
 
