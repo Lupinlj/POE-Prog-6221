@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.ComponentModel;
 using System.Data;
 using System.Drawing;
+using System.Linq.Expressions;
 using System.Media;
 using System.Text;
 using System.Windows.Forms;
@@ -77,60 +78,92 @@ namespace POE_PROG_YEAR_2
 
         private void btnSend_Click(object sender, EventArgs e)
         {
-            string input = userInput.Text.ToLower();
-
-            if (string.IsNullOrWhiteSpace(input))
-                return;
-
-            chatDisplay.SelectionColor = Color.Cyan;
-            chatDisplay.AppendText("You: " + userInput.Text + "\n");
-
-            ResponseQuestions bot = new ResponseQuestions();
-            string response = bot.GetResponse(input, userName);
-
-            chatDisplay.SelectionColor = Color.Lime;
-            chatDisplay.AppendText("CyberBot: " + response + "\n");
-
-
-            // Check if user is asking for more info on the last topic
-            if ((input.Contains("tell me more") || input.Contains("explain more") || input.Contains("give me another tip")) && saveTopic != "")
+            try
             {
-                string repsonse = bot.GetResponse(saveTopic, userName);
-                chatDisplay.AppendText("CyberBot: " + response + "\n\n");
-                return;
-            }
-            userInput.Clear();
 
+                string input = userInput.Text.Trim().ToLower();
 
-            if (input.Contains("interested in"))
-            {
-                if (input.Contains("phishing")) favTopic = "phishing";
-                else if (input.Contains("password")) favTopic = "password";
+                if (string.IsNullOrWhiteSpace(input))
+                {
+                    chatDisplay.AppendText("CyberBot: Please type some before sending! \n\n");
+                    return;
+                }
+                if (input.Length > 500)
+                {
+                    chatDisplay.AppendText("CyberBot: That's a very long message!");
+                    userInput.Clear();
+                    return;
+                }
+
+                if (input == "exit")
+                {
+                    chatDisplay.AppendText("CyberBot: Goodbye, " + userName + ": Stay safe online! \n");
+                    Application.Exit();
+                    return;
+                }
+
+                // Check if a user is sharing their favourite topic
+                if (input.Contains("interested in"))
+                {
+                    if (input.Contains("phishing")) favTopic = "phishing";
+                    else if (input.Contains("password")) favTopic = "password";
+                    else if (input.Contains("safe browsing")) saveTopic = "safe browsing";
+                    else if (input.Contains("2fa") || input.Contains("two factor")) favTopic = "2fa";
+                    else if (input.Contains("scam")) favTopic = "scam";
+                    else if (input.Contains("privacy")) favTopic = "privacy";
+
+                    chatDisplay.AppendText("You: " + userInput.Text + "\n");
+                    chatDisplay.AppendText("CyberBot: Got it " + userName + "! I'll remember that you're interested in " + favTopic + ".\n\n");
+                    userInput.Clear();
+                    return;
+                }
+
+                // Check if user is asking for more info on the last topic
+                if ((input.Contains("tell me more") || input.Contains("explain more") || input.Contains("give me another tip")) && saveTopic != "")
+                {
+
+                    ResponseQuestions bot2 = new ResponseQuestions();
+                    string followUp = bot2.GetResponse(saveTopic, userName);
+                    chatDisplay.AppendText("CyberBot: " + followUp + "\n\n");
+                    userInput.Clear();
+                    return;
+                }
+                string sentiment = GetSentiment(input);
+
+                ResponseQuestions bot = new ResponseQuestions();
+                string response = bot.GetResponse(input, userName);
+
+                chatDisplay.AppendText("You: " + userInput.Text + "\n");
+                chatDisplay.AppendText("CyberBot: " + sentiment + response + "\n\n");
+
+                // Save the topic for follow-up questions
+                if (input.Contains("phishing")) saveTopic = "phishing";
+                else if (input.Contains("password")) saveTopic = "password";
                 else if (input.Contains("safe browsing")) saveTopic = "safe browsing";
-                else if (input.Contains("2fa") || input.Contains("two factor")) favTopic = "2fa";
-                else if (input.Contains("scam")) favTopic = "scam";
-                else if (input.Contains("privacy")) favTopic = "privacy";
+                else if (input.Contains("2fa") || input.Contains("two factor")) saveTopic = "2fa";
+                else if (input.Contains("scam")) saveTopic = "scam";
+                else if (input.Contains("privacy")) saveTopic = "privacy";
 
-                chatDisplay.AppendText("CyberBot: Got it " + userName + "! I'll remember that you're interested in " + favTopic + ".\n\n");
                 userInput.Clear();
-                return;
             }
-
-
-            // Save the topic for follow-up questions
-            if (input.Contains("phishing")) saveTopic = "phishing";
-            else if (input.Contains("password")) saveTopic = "password";
-            else if (input.Contains("safe browsing")) saveTopic = "safe browsing";
-            else if (input.Contains("2fa") || input.Contains("two factor")) saveTopic = "2fa";
-            else if (input.Contains("scam")) saveTopic = "scam";
-            else if (input.Contains("privacy")) saveTopic = "privacy";
-
-           
-            
-
-
+            catch (Exception ex)
+            {
+                chatDisplay.AppendText("CyberBot: Something went wrong. Please try again\n\n");
+            }
         }
+        private string GetSentiment(string input)
+        {
+            if (input.Contains("worried") || input.Contains("scared") || input.Contains("afraid"))
+                return "I understand that you're feeling worried. ";
 
+            else if (input.Contains("curious"))
+                return "Great that you're curious about this! ";
 
+            else if (input.Contains("frustrated") || input.Contains("confused"))
+                return "I can see this is frustrating. Let me help you. ";
+
+            else
+                return "";
+        }
     }
 }

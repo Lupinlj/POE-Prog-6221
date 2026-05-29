@@ -201,6 +201,8 @@ class ResponseQuestions
 
 
         else
-            return "I didn't understand that, try again.";
+            return "I didn't understand that, " + name + " . Can you try rephrasing? " +
+                "You can ask me about: password, phishing, safe browsing, 2fa, scam, or privacy.";
+
     }
 }
