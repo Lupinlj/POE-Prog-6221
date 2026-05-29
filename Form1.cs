@@ -14,6 +14,7 @@ namespace POE_PROG_YEAR_2
 
         private string userName = "";
         private string saveTopic = "";
+        private string favTopic = "";
 
         public Form1()
         {
@@ -91,16 +92,6 @@ namespace POE_PROG_YEAR_2
             chatDisplay.AppendText("CyberBot: " + response + "\n");
 
 
-
-           
-            // Save the topic for follow-up questions
-            if (input.Contains("phishing")) saveTopic = "phishing";
-            else if (input.Contains("password")) saveTopic = "password";
-            else if (input.Contains("safe browsing")) saveTopic = "safe browsing";
-            else if (input.Contains("2fa") || input.Contains("two factor")) saveTopic = "2fa";
-            else if (input.Contains("scam")) saveTopic = "scam";
-            else if (input.Contains("privacy")) saveTopic = "privacy";
-
             // Check if user is asking for more info on the last topic
             if ((input.Contains("tell me more") || input.Contains("explain more") || input.Contains("give me another tip")) && saveTopic != "")
             {
@@ -109,7 +100,34 @@ namespace POE_PROG_YEAR_2
                 return;
             }
             userInput.Clear();
+
+
+            if (input.Contains("interested in"))
+            {
+                if (input.Contains("phishing")) favTopic = "phishing";
+                else if (input.Contains("password")) favTopic = "password";
+                else if (input.Contains("safe browsing")) saveTopic = "safe browsing";
+                else if (input.Contains("2fa") || input.Contains("two factor")) favTopic = "2fa";
+                else if (input.Contains("scam")) favTopic = "scam";
+                else if (input.Contains("privacy")) favTopic = "privacy";
+
+                chatDisplay.AppendText("CyberBot: Got it " + userName + "! I'll remember that you're interested in " + favTopic + ".\n\n");
+                userInput.Clear();
+                return;
+            }
+
+
+            // Save the topic for follow-up questions
+            if (input.Contains("phishing")) saveTopic = "phishing";
+            else if (input.Contains("password")) saveTopic = "password";
+            else if (input.Contains("safe browsing")) saveTopic = "safe browsing";
+            else if (input.Contains("2fa") || input.Contains("two factor")) saveTopic = "2fa";
+            else if (input.Contains("scam")) saveTopic = "scam";
+            else if (input.Contains("privacy")) saveTopic = "privacy";
+
+           
             
+
 
         }
 
