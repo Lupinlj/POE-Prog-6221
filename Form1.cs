@@ -3,7 +3,6 @@ using System.Collections.Generic;
 using System.ComponentModel;
 using System.Data;
 using System.Drawing;
-using System.Linq.Expressions;
 using System.Media;
 using System.Text;
 using System.Windows.Forms;
@@ -23,7 +22,7 @@ namespace POE_PROG_YEAR_2
         }
 
 
-
+        // Load the form. plays welcome sound and displays ASCII art
         private void Form1_Load(object sender, EventArgs e)
         {
 
@@ -75,12 +74,12 @@ namespace POE_PROG_YEAR_2
             chatDisplay.AppendText("=================================================\n");
 
         }
-
+      
+        // Handles user input and reponse
         private void btnSend_Click(object sender, EventArgs e)
         {
             try
             {
-
                 string input = userInput.Text.Trim().ToLower();
 
                 if (string.IsNullOrWhiteSpace(input))
@@ -107,7 +106,7 @@ namespace POE_PROG_YEAR_2
                 {
                     if (input.Contains("phishing")) favTopic = "phishing";
                     else if (input.Contains("password")) favTopic = "password";
-                    else if (input.Contains("safe browsing")) saveTopic = "safe browsing";
+                    else if (input.Contains("safe browsing")) favTopic = "safe browsing";
                     else if (input.Contains("2fa") || input.Contains("two factor")) favTopic = "2fa";
                     else if (input.Contains("scam")) favTopic = "scam";
                     else if (input.Contains("privacy")) favTopic = "privacy";
@@ -151,6 +150,8 @@ namespace POE_PROG_YEAR_2
                 chatDisplay.AppendText("CyberBot: Something went wrong. Please try again\n\n");
             }
         }
+
+        // Detects user sentiment
         private string GetSentiment(string input)
         {
             if (input.Contains("worried") || input.Contains("scared") || input.Contains("afraid"))
