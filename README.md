@@ -1,7 +1,7 @@
 # Cybersecurity Awareness Chatbot
 
 ## Description
-This is a cybersecurity awareness chatbot build with C$ WinForms. It teaches users on cybersecurity topics such as password safety, phising, safe browsing, and two-factor authentication. The chatbot features sentiment detection, memory recall, random reponses and a GUI interface.
+This is a cybersecurity awareness chatbot build with C# WinForms. It teaches users on cybersecurity topics such as password safety, phising, safe browsing, and two-factor authentication. The chatbot features sentiment detection, memory recall, random reponses and a GUI interface.
 
 ## Features
 - GUI interface with chat display
