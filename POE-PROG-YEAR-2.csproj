@@ -2,21 +2,25 @@
 
 	<PropertyGroup>
 		<OutputType>WinExe</OutputType>
-		<TargetFramework>net10.0-windows</TargetFramework>
+		<TargetFramework>net9.0-windows</TargetFramework>
 		<RootNamespace>POE_PROG_YEAR_2</RootNamespace>
 		<ImplicitUsings>enable</ImplicitUsings>
 		<Nullable>enable</Nullable>
 		<UseWindowsForms>true</UseWindowsForms>
 	</PropertyGroup>
 
-	<ItemGroup>
-		<PackageReference Include="System.Windows.Extensions" Version="11.0.0-preview.2.26159.112" />
-	</ItemGroup>
+	
 
 	<ItemGroup>
 		<None Update="Welcome sound.wav">
 			<CopyToOutputDirectory>Always</CopyToOutputDirectory>
 		</None>
+	</ItemGroup>
+
+	
+
+	<ItemGroup>
+	  <PackageReference Include="MySql.Data" Version="9.7.0" />
 	</ItemGroup>
 
 </Project>

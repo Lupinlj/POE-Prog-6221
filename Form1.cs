@@ -6,6 +6,7 @@ using System.Drawing;
 using System.Media;
 using System.Text;
 using System.Windows.Forms;
+using System.Data.SqlClient;
 
 namespace POE_PROG_YEAR_2
 {
@@ -15,7 +16,7 @@ namespace POE_PROG_YEAR_2
         private string userName = "";
         private string saveTopic = "";
         private string favTopic = "";
-
+        
         public Form1()
         {
             InitializeComponent();
