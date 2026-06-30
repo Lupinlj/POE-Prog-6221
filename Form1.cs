@@ -92,16 +92,39 @@ namespace POE_PROG_YEAR_2
                 // Check if bot is waiting for reminder
                 if (waitingForReminder)
                 {
-                    string reminder = userInput.Text.Trim();
+                    string reminder = userInput.Text.Trim().ToLower();
+
+                    // If user says no, don't set a reminder
+                    if (reminder == "no" || reminder == "no thanks" || reminder == "not now")
+                    {
+                        chatDisplay.AppendText("CyberBot: Okay, no reminder set for this task.\n\n");
+                        ActivityLogger.Add("Task added: " + pendingTitle + " (no reminder)");
+                        waitingForReminder = false;
+                        pendingTitle = "";
+                        pendingDescription = "";
+                        userInput.Clear();
+                        return;
+                    }
+
+                    // Otherwise, set the reminder
                     TaskRepository repo = new TaskRepository();
                     repo.AddTask(pendingTitle, pendingDescription, reminder);
                     chatDisplay.AppendText("CyberBot: Got it! I'll remind you - " + reminder + "\n\n");
+                    ActivityLogger.Add("Reminder set: " + pendingTitle + " on " + reminder);
                     waitingForReminder = false;
                     pendingTitle = "";
                     pendingDescription = "";
                     userInput.Clear();
                     return;
                 }
+
+                if (input.Contains("show log") || input.Contains("activity log") || input.Contains("what have you done"))
+                {
+                    ShowActivityLog();
+                    userInput.Clear();
+                    return;
+                }
+
 
                 // Check if user wants to add a task
                 if (input.Contains("add task"))
@@ -110,6 +133,7 @@ namespace POE_PROG_YEAR_2
                     pendingDescription = "Cybersecurity task: " + pendingTitle;
                     waitingForReminder = true;
                     chatDisplay.AppendText("CyberBot: Task added with the description \"" + pendingDescription + "\". Would you like a reminder?\n\n");
+                    ActivityLogger.Add("Task added: " + pendingTitle);
                     userInput.Clear();
                     return;
                 }
@@ -120,6 +144,7 @@ namespace POE_PROG_YEAR_2
                     TaskForm taskForm = new TaskForm();
                     taskForm.Show();
                     chatDisplay.AppendText("CyberBot: Opening your task list!\n\n");
+                    ActivityLogger.Add("Task list viewed");
                     userInput.Clear();
                     return;
                 }
@@ -130,6 +155,7 @@ namespace POE_PROG_YEAR_2
                     QuizForm quizForm = new QuizForm();
                     quizForm.Show();
                     chatDisplay.AppendText("Cyber: Opening the Cybersecurity Quiz");
+                    ActivityLogger.Add("Quiz started");
                     userInput.Clear();
                     return;
                 }
@@ -163,8 +189,9 @@ namespace POE_PROG_YEAR_2
                     else if (input.Contains("scam")) favTopic = "scam";
                     else if (input.Contains("privacy")) favTopic = "privacy";
 
-                    chatDisplay.AppendText("You: " + userInput.Text + "\n");
+                    chatDisplay.AppendText("You: " + userInput.Text + "\n");                
                     chatDisplay.AppendText("CyberBot: Got it " + userName + "! I'll remember that you're interested in " + favTopic + ".\n\n");
+                    ActivityLogger.Add("User interested in: " + favTopic);
                     userInput.Clear();
                     return;
                 }
@@ -176,6 +203,7 @@ namespace POE_PROG_YEAR_2
                     ResponseQuestions bot2 = new ResponseQuestions();
                     string followUp = bot2.GetResponse(saveTopic, userName);
                     chatDisplay.AppendText("CyberBot: " + followUp + "\n\n");
+                    ActivityLogger.Add("Asked for more info about: " + saveTopic);
                     userInput.Clear();
                     return;
                 }
@@ -270,6 +298,11 @@ namespace POE_PROG_YEAR_2
                 }
             }
             return input.Trim();
+        }
+        private void ShowActivityLog()
+        {
+            string log = ActivityLogger.GetLog();
+            chatDisplay.AppendText("CyberBot: " + log + "\n\n");
         }
     }
 }
