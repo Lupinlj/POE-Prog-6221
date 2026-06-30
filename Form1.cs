@@ -86,7 +86,8 @@ namespace POE_PROG_YEAR_2
         {
             try
             {
-                string input = userInput.Text.Trim().ToLower();
+                string input = userInput.Text.Trim();
+                string lowerInput = input.ToLower();
 
                 // Check if bot is waiting for reminder
                 if (waitingForReminder)
@@ -216,6 +217,59 @@ namespace POE_PROG_YEAR_2
 
             else
                 return "";
+        }
+
+        private string DetectIntent(string input)
+        {
+            // Task-related keywords
+            if (input.Contains("add task") || input.Contains("new task") ||
+                input.Contains("create task") || input.Contains("make task") ||
+                input.Contains("remember to") || input.Contains("remind me"))
+                return "add_task";
+
+            // View tasks
+            if (input.Contains("view task") || input.Contains("show task") ||
+                input.Contains("list task") || input.Contains("my tasks"))
+                return "view_tasks";
+
+            // Quiz-related
+            if (input.Contains("quiz") || input.Contains("test my knowledge") ||
+                input.Contains("start quiz") || input.Contains("take quiz") ||
+                input.Contains("play quiz"))
+                return "start_quiz";
+
+            // Activity log
+            if (input.Contains("activity log") || input.Contains("what have you done") ||
+                input.Contains("show log") || input.Contains("recent actions"))
+                return "show_log";
+
+            // Cybersecurity topics
+            if (input.Contains("password") || input.Contains("phishing") ||
+                input.Contains("safe browsing") || input.Contains("2fa") ||
+                input.Contains("scam") || input.Contains("privacy"))
+                return "cyber_topic";
+
+            return "unknown";
+        }
+
+        // This extract the task title from various phrasings
+        private string ExtractTaskTitle(string input)
+        {
+            // Remove common phrases to get the actual task
+            string cleaned = input.ToLower();
+            string[] removePhrases = { "add task", "new task", "create task", "make task",
+                               "remember to", "remind me", "set reminder" };
+
+            foreach (string phrase in removePhrases)
+            {
+                if (cleaned.Contains(phrase))
+                {
+                    int index = cleaned.IndexOf(phrase) + phrase.Length;
+                    if (index < input.Length)
+                        return input.Substring(index).Trim();
+                }
+            }
+            return input.Trim();
         }
     }
 }
