@@ -7,6 +7,7 @@ using System.Media;
 using System.Text;
 using System.Windows.Forms;
 using System.Data.SqlClient;
+using POE_PROG_YEAR_2.Data;
 
 namespace POE_PROG_YEAR_2
 {
@@ -16,6 +17,10 @@ namespace POE_PROG_YEAR_2
         private string userName = "";
         private string saveTopic = "";
         private string favTopic = "";
+
+        private bool waitingForReminder = false;
+        private string pendingTitle = "";
+        private string pendingDescription = "";
         
         public Form1()
         {
@@ -82,6 +87,51 @@ namespace POE_PROG_YEAR_2
             try
             {
                 string input = userInput.Text.Trim().ToLower();
+
+                // Check if bot is waiting for reminder
+                if (waitingForReminder)
+                {
+                    string reminder = userInput.Text.Trim();
+                    TaskRepository repo = new TaskRepository();
+                    repo.AddTask(pendingTitle, pendingDescription, reminder);
+                    chatDisplay.AppendText("CyberBot: Got it! I'll remind you - " + reminder + "\n\n");
+                    waitingForReminder = false;
+                    pendingTitle = "";
+                    pendingDescription = "";
+                    userInput.Clear();
+                    return;
+                }
+
+                // Check if user wants to add a task
+                if (input.Contains("add task"))
+                {
+                    pendingTitle = userInput.Text.Trim().Substring(9).Trim();
+                    pendingDescription = "Cybersecurity task: " + pendingTitle;
+                    waitingForReminder = true;
+                    chatDisplay.AppendText("CyberBot: Task added with the description \"" + pendingDescription + "\". Would you like a reminder?\n\n");
+                    userInput.Clear();
+                    return;
+                }
+
+                // Check if user wants to view tasks
+                if (input.Contains("view tasks") || input.Contains("show tasks"))
+                {
+                    TaskForm taskForm = new TaskForm();
+                    taskForm.Show();
+                    chatDisplay.AppendText("CyberBot: Opening your task list!\n\n");
+                    userInput.Clear();
+                    return;
+                }
+
+                // Check if user wants to start the quiz
+                if (input.Contains("quiz") || input.Contains("start quiz") || input.Contains("test my knowledge"))
+                {
+                    QuizForm quizForm = new QuizForm();
+                    quizForm.Show();
+                    chatDisplay.AppendText("Cyber: Opening the Cybersecurity Quiz");
+                    userInput.Clear();
+                    return;
+                }
 
                 if (string.IsNullOrWhiteSpace(input))
                 {
